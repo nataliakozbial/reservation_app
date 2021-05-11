@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Internetowa wypożyczalnia
+{% endblock %}
+
+{% block body %}
+    <h1 align="center">Dostępne książki</h1>
+    {% if data is defined and data|length %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Tytuł</th>
+                <th>Tagi</th>
+                <th scope="col">
+                    Działania
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in data %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.Tytuł }}</td>
+                    <td>{{ item.tagi|join(', ') }}</td>
+                    <td>
+                        <a href="{{ url('record_show', {id: item.id}) }}" title="Szczegóły">
+                            Szczegóły
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>
+            Empty list.
+        </p>
+    {% endif %}
+{% endblock  %}
