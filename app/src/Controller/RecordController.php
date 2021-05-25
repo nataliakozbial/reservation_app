@@ -21,6 +21,7 @@ class RecordController extends AbstractController
      * Index action.
      *
      * @param \App\Repository\RecordRepository $repository Record repository
+     * @param \Knp\Component\Pager\PaginatorInterface   $paginator      Paginator
      *
      * @return \Symfony\Component\HttpFoundation\Response HTTP response
      *
@@ -32,6 +33,7 @@ class RecordController extends AbstractController
      */
     public function index(RecordRepository $repository): Response
     {
+
         return $this->render(
             'record/index.html.twig',
             ['data' => $repository->findAll()]

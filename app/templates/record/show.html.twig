@@ -3,17 +3,19 @@
 {% block title %}
     Podgląd
 {% endblock %}
-
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+{% endblock %}
 {% block body %}
     <h1 align="center">Szczegóły</h1>
     {% if item is defined and item|length %}
         <dl>
             <dt>Tytuł</dt>
-            <dd>{{ item.Tytuł }}</dd>
+            <dd>{{ item.title }}</dd>
             <dt>Opis</dt>
             <dd>{{ item.content }}</dd>
             <dt>Tagi</dt>
-            <dd>{{ item.tagi|join(', ') }}</dd>
+            <dd>{{ item.tags|join(', ') }}</dd>
         </dl>
     {% else %}
         <p>

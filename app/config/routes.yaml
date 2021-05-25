@@ -4,4 +4,4 @@
 
 index:
   path: /
-  controller: App\Controller\RecordController::index
+  controller: App\Controller\BookController::index

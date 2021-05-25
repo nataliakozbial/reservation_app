@@ -15,12 +15,14 @@ class RecordRepository
      *
      * @var array
      */
+    const PAGINATOR_ITEMS_PER_PAGE = 3;
+
     private $data = [
         1 => [
             'id' => 1,
-            'Tytuł' => 'Książka 1',
+            'title' => 'Książka 1',
             'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin et hendrerit augue, non porta ligula. Etiam sodales, sapien sed pulvinar molestie, dolor dolor fringilla urna, ac tincidunt libero metus a lorem. Proin maximus est eu sapien euismod pellentesque. Sed gravida odio quis urna ultrices, tempus ultricies quam imperdiet. Nam malesuada eleifend molestie. Phasellus id ullamcorper risus. Duis et ultricies purus. Sed sed dictum nibh. Pellentesque dignissim auctor urna. Curabitur mattis tincidunt eleifend. Curabitur nec suscipit est.',
-            'tagi' => [
+            'tags' => [
                 'Sed',
                 'convallis',
                 'nibh',
@@ -28,9 +30,9 @@ class RecordRepository
         ],
         2 => [
             'id' => 2,
-            'Tytuł' => 'Książka 2',
+            'title' => 'Książka 2',
             'content' => 'Nullam malesuada ipsum non ligula feugiat consequat. Aliquam quis magna condimentum, pharetra dui eget, gravida ipsum. Donec porta fringilla sagittis. Donec vel ante sit amet mauris faucibus vehicula ac quis enim. Nunc maximus, neque sed tristique elementum, velit ex ornare augue, quis malesuada ante ligula vitae arcu. Sed convallis, est et pulvinar placerat, leo dui dictum tortor, vitae vehicula mauris turpis sit amet eros. Proin ultrices, nunc a aliquam accumsan, nisi ligula vulputate libero, a dapibus nulla felis in diam. Sed egestas metus condimentum egestas facilisis.',
-            'tagi' => [
+            'tags' => [
                 'Phasellus',
                 'vestibulum',
                 'tortor',
@@ -38,9 +40,9 @@ class RecordRepository
         ],
         3 => [
             'id' => 3,
-            'Tytuł' => 'Ksiązka 3',
+            'title' => 'Ksiązka 3',
             'content' => 'Sed hendrerit, libero non facilisis semper, nibh nunc maximus mi, eget sollicitudin neque justo a ante. Cras iaculis risus vel massa efficitur auctor. Aliquam vulputate urna feugiat sapien porta, a accumsan est efficitur. Praesent pharetra tempus malesuada. Nunc nec quam placerat, pretium ligula id, ultricies ipsum. Suspendisse vel arcu leo. Aenean ultrices erat id turpis consectetur vestibulum. Duis accumsan aliquet tristique. Nulla ut massa ac nunc consequat facilisis. Sed sodales porta ligula. Curabitur faucibus pulvinar nunc ut efficitur. Suspendisse in sem euismod odio interdum aliquet et eget velit. Duis a quam in nulla pharetra efficitur. Vivamus aliquet est ut tempus consectetur. Cras vel leo dignissim, elementum risus auctor, placerat ligula. Integer laoreet libero at pretium sodales.',
-            'tagi' => [
+            'tags' => [
                 'Curabitur',
                 'consectetur',
                 'porttitor',
@@ -48,9 +50,9 @@ class RecordRepository
         ],
         4 => [
             'id' => 4,
-            'Tytuł' => 'Książka 4',
+            'title' => 'Książka 4',
             'content' => 'Nullam malesuada ipsum non ligula feugiat consequat. Aliquam quis magna condimentum, pharetra dui eget, gravida ipsum. Donec porta fringilla sagittis. Donec vel ante sit amet mauris faucibus vehicula ac quis enim. Nunc maximus, neque sed tristique elementum, velit ex ornare augue, quis malesuada ante ligula vitae arcu. Sed convallis, est et pulvinar placerat, leo dui dictum tortor, vitae vehicula mauris turpis sit amet eros. Proin ultrices, nunc a aliquam accumsan, nisi ligula vulputate libero, a dapibus nulla felis in diam. Sed egestas metus condimentum egestas facilisis.',
-            'tagi' => [
+            'tags' => [
                 'Phasellus',
                 'vestibulum',
                 'tortor',
@@ -58,9 +60,9 @@ class RecordRepository
         ],
         5 => [
             'id' => 5,
-            'Tytuł' => 'Książka 5',
+            'title' => 'Książka 5',
             'content' => 'Nullam malesuada ipsum non ligula feugiat consequat. Aliquam quis magna condimentum, pharetra dui eget, gravida ipsum. Donec porta fringilla sagittis. Donec vel ante sit amet mauris faucibus vehicula ac quis enim. Nunc maximus, neque sed tristique elementum, velit ex ornare augue, quis malesuada ante ligula vitae arcu. Sed convallis, est et pulvinar placerat, leo dui dictum tortor, vitae vehicula mauris turpis sit amet eros. Proin ultrices, nunc a aliquam accumsan, nisi ligula vulputate libero, a dapibus nulla felis in diam. Sed egestas metus condimentum egestas facilisis.',
-            'tagi' => [
+            'tags' => [
                 'Phasellus',
                 'vestibulum',
                 'tortor',
