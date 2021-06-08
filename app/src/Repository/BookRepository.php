@@ -35,6 +35,33 @@ class BookRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Book::class);
     }
+    /**
+     * Save record.
+     *
+     * @param \App\Entity\Book $book Book entity
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function save(Book $book): void
+    {
+        $this->_em->persist($book);
+        $this->_em->flush();
+    }
+
+    /**
+     * Delete record.
+     *
+     * @param \App\Entity\Book $book Book entity
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function delete(Book $book): void
+    {
+        $this->_em->remove($book);
+        $this->_em->flush();
+    }
 
     /**
      * Query all records.

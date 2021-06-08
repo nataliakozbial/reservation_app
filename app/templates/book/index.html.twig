@@ -5,12 +5,23 @@
 {% endblock %}
 
 {% block body %}
-    <h1 align="center">{{ 'title_task_list'|trans }}</h1>
+
+    <div class="topnav">
+    <a href="{{ url('book_create') }}" title="{{ 'book_new'|trans }}">
+        {{ 'book_new'|trans }}
+    </a>
+    <a href="{{ url('category_index') }}" title="{{ 'category_list'|trans }}">
+        {{ 'category_list'|trans }}
+    </a>
+        <a href="{{ url('app_login') }}" title="{{ 'login'|trans }}">
+            {{ 'login'|trans }}
+        </a>
+        <a href="{{ url('registration') }}" title="{{ 'register'|trans }}">
+            {{ 'register'|trans }}
+        </a>
+    </div>
     {% if pagination is defined and pagination.items|length %}
 
-        <div class="navigation text-center">
-            {{ knp_pagination_render(pagination) }}
-        </div>
 
         <table class="table table-striped">
             <thead>
@@ -19,23 +30,27 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label_created_at'|trans, 'book.createdAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label_updated_at'|trans, 'book.updatedAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label_title'|trans, 'book.title') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label_category'|trans, 'book.actions') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label_actions'|trans, 'book.actions') }}</th>
             </tr>
             </thead>
             <tbody>
-            <section style="text-align: right">
-                <a class="przycisk" href="#">Zaloguj się  </a>
-                <a class="przycisk2" href="#">Utwórz konto</a>
-            </section>
             {% for book in pagination.items %}
                 <tr>
                     <td>{{ book.id }}</td>
-                    <td>{{ book.createdAt|date('Y/m/d') }}</td>
-                    <td>{{ book.updatedAt|date('Y/m/d') }}</td>
+                    <td>{{ book.createdAt|format_date('long') }} </td>
+                    <td>{{ book.updatedAt|format_date('long') }} </td>
                     <td>{{ book.title }}</td>
+                    <td>{{ book.category.title }}</td>
                     <td>
                         <a href="{{ url('book_show', {id: book.id}) }}" title="{{ 'action_view'|trans }}">
                             {{ 'action_view'|trans }}
+                        </a>
+                        <a href="{{ url('book_edit', {id: book.id}) }}" title="{{ 'action_edit'|trans }}">
+                            {{ 'action_edit'|trans }}
+                        </a>
+                        <a href="{{ url('book_delete', {id: book.id}) }}" title="{{ 'action_delete'|trans }}">
+                            {{ 'action_delete'|trans }}
                         </a>
                     </td>
                 </tr>

@@ -1,11 +1,54 @@
-h1 {
+.topnav {
+    background-color: #257c82;
+    overflow: hidden;
+}
+
+.topnav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 1.36vw 1.46vw;
+    text-decoration: none;
+    font-size: 1.6vw;
+}
+
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.topnav a.active {
+    background-color: #505551;
+    color: white;
+}
+
+.topnav .icon {
+    display: none;
+}
+
+.b {
+    position: relative;
+    top: -4px;
+}
+.napis{
+    position: relative;
+    left: 3px;
+}
+section {
     position: relative;
     top: 43px;
+
+}
+h1 {
+    position: relative;
+    top: 11px;
+    left: -54px;
     font-size: 52px;
 }
 a.przycisk {
     position: relative;
-    top: -25px;    float: right;
+    top: -43px;    float: right;
     cursor: pointer;
     width: 190px;
     height: 64px;
@@ -40,7 +83,7 @@ a.przycisk {
 
 a.przycisk2 {
     position: relative;
-    top: -25px;    float: right;
+    top: -43px;    float: right;
     cursor: pointer;
     width: 190px;
     height: 64px;
@@ -114,5 +157,5 @@ a.przycisk2:active {
 
 
 .table-striped {
-    background-color: rgb(163, 215, 222);
+    background-color: rgb(209, 236, 240);
 }
