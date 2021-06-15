@@ -1,25 +1,21 @@
 <?php
 /**
- * Book type.
+ * Tag type.
  */
 
 namespace App\Form;
 
-use App\Entity\Category;
-use App\Entity\Book;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Tag;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class BookType.
+ * Class TagType.
  */
-class BookType extends AbstractType
+class TagType extends AbstractType
 {
-
-
     /**
      * Builds the form.
      *
@@ -42,21 +38,6 @@ class BookType extends AbstractType
                 'attr' => ['max_length' => 64],
             ]
         );
-        $builder->add(
-            'category',
-            EntityType::class,
-            [
-                'class' => Category::class,
-                'choice_label' => function ($category) {
-                    return $category->getTitle();
-                },
-                'label' => 'label_category',
-                'placeholder' => 'label_none',
-                'required' => true,
-            ]
-        );
-
-
     }
 
     /**
@@ -66,7 +47,7 @@ class BookType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => Book::class]);
+        $resolver->setDefaults(['data_class' => Tag::class]);
     }
 
     /**
@@ -79,6 +60,6 @@ class BookType extends AbstractType
      */
     public function getBlockPrefix(): string
     {
-        return 'book';
+        return 'tag';
     }
 }

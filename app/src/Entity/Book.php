@@ -62,6 +62,8 @@ class Book
 
 
 
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -144,6 +146,10 @@ class Book
 
         return $this;
     }
+
+
+
+
 
 
 }

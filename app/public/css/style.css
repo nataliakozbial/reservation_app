@@ -43,7 +43,7 @@ section {
 h1 {
     position: relative;
     top: 11px;
-    left: -54px;
+    left: 4px;
     font-size: 52px;
 }
 a.przycisk {
@@ -158,4 +158,13 @@ a.przycisk2:active {
 
 .table-striped {
     background-color: rgb(209, 236, 240);
+}
+
+.napis {
+    color: #007bff;
+}
+
+.h3 mb-3 font-weight-normal {
+    position: relative;
+    left: 10px;
 }

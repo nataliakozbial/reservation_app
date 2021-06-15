@@ -28,6 +28,7 @@ class BookFixtures extends AbstractBaseFixtures implements DependentFixtureInter
             $book->setUpdatedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));
             $book->setCategory($this->getRandomReference('categories'));
 
+
             return $book;
         });
 

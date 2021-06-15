@@ -7,19 +7,42 @@
 {% block body %}
 
     <div class="topnav">
-    <a href="{{ url('book_create') }}" title="{{ 'book_new'|trans }}">
-        {{ 'book_new'|trans }}
-    </a>
-    <a href="{{ url('category_index') }}" title="{{ 'category_list'|trans }}">
-        {{ 'category_list'|trans }}
-    </a>
-        <a href="{{ url('app_login') }}" title="{{ 'login'|trans }}">
-            {{ 'login'|trans }}
-        </a>
+
+        {% if is_granted('ROLE_ADMIN') %}
+
+            <div>
+                <a href="{{ url('book_create') }}">{{ 'book_new'|trans }}</a>
+            </div>
+        {% else %}
+            <div>
+                <a href="{{ url('book_index') }}">{{ 'books'|trans }}</a>
+            </div>
+        {% endif %}
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+
+            <div>
+                <a href="{{ url('category_index') }}">{{ 'category_list'|trans }}</a>
+            </div>
+        {% else %}
+            <div>
+                <a href="{{ url('app_login') }}">{{ 'category_list'|trans }}</a>
+            </div>
+        {% endif %}
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+
+            <div>
+                <a href="{{ url('app_logout') }}">{{ 'logout'|trans }}</a>
+            </div>
+        {% else %}
+            <div>
+                <a href="{{ url('app_login') }}">{{ 'login'|trans }}</a>
+            </div>
+        {% endif %}
         <a href="{{ url('registration') }}" title="{{ 'register'|trans }}">
             {{ 'register'|trans }}
         </a>
     </div>
+
     {% if pagination is defined and pagination.items|length %}
 
 
@@ -30,8 +53,8 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label_created_at'|trans, 'book.createdAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label_updated_at'|trans, 'book.updatedAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label_title'|trans, 'book.title') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label_category'|trans, 'book.actions') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label_actions'|trans, 'book.actions') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label_category'|trans, 'category.title') }}</th>
+                <th class="napis">{{ 'label_actions'|trans }}</th>
             </tr>
             </thead>
             <tbody>
@@ -41,17 +64,26 @@
                     <td>{{ book.createdAt|format_date('long') }} </td>
                     <td>{{ book.updatedAt|format_date('long') }} </td>
                     <td>{{ book.title }}</td>
-                    <td>{{ book.category.title }}</td>
+                    <td><a href="{{ url('book_index', {'filters_category_id' : book.category.id}) }}" title="{{ book.category.title }}">
+                            {{ book.category.title }}
+                        </a> </td>
                     <td>
-                        <a href="{{ url('book_show', {id: book.id}) }}" title="{{ 'action_view'|trans }}">
-                            {{ 'action_view'|trans }}
-                        </a>
-                        <a href="{{ url('book_edit', {id: book.id}) }}" title="{{ 'action_edit'|trans }}">
-                            {{ 'action_edit'|trans }}
-                        </a>
-                        <a href="{{ url('book_delete', {id: book.id}) }}" title="{{ 'action_delete'|trans }}">
-                            {{ 'action_delete'|trans }}
-                        </a>
+                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                <a href="{{ url('book_show', {id: book.id }) }}">{{ 'action_view'|trans }}</a>
+
+                        {% else %}
+                                <a href="{{ url('app_login') }}">{{ 'action_view'|trans }}</a>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ url('book_edit', {id: book.id}) }}">{{ 'action_edit'|trans }}</a>
+                        {% else %}
+                            <a href="{{ url('book_index') }}">{{ 'action_edit'|trans }}</a>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ url('book_delete', {id: book.id}) }}">{{ 'action_delete'|trans }}</a>
+                        {% else %}
+                            <a href="{{ url('book_index') }}">{{ 'action_delete'|trans }}</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
@@ -66,5 +98,8 @@
         <p>
             {{ 'message_empty_list'|trans }}
         </p>
+    {% endif %}
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    <div>Witaj {{ app.user.email }}</div>
     {% endif %}
 {% endblock %}

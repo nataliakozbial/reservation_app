@@ -7,6 +7,7 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Form\BookType;
+use App\Service\BookService;
 use App\Repository\BookRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,6 +24,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class BookController extends AbstractController
 {
     /**
+     * Book service.
+     *
+     * @var \App\Service\BookService
+     */
+    private $bookService;
+
+    /**
+     * BookController constructor.
+     *
+     * @param \App\Service\BookService $bookService Book service
+     */
+    public function __construct(BookService $bookService)
+    {
+        $this->bookService = $bookService;
+    }
+    /**
      * Index action.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request        HTTP request
@@ -36,12 +53,13 @@ class BookController extends AbstractController
      *     name="book_index",
      * )
      */
-    public function index(Request $request, BookRepository $bookRepository, PaginatorInterface $paginator): Response
+    public function index(Request $request): Response
     {
-        $pagination = $paginator->paginate(
-            $bookRepository->queryAll(),
+        $filters = [];
+        $filters['category_id'] = $request->query->getInt('filters_category_id');
+        $pagination = $this->bookService->createPaginatedList(
             $request->query->getInt('page', 1),
-            BookRepository::PAGINATOR_ITEMS_PER_PAGE
+            $filters
         );
 
         return $this->render(

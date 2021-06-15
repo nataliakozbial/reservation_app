@@ -142,6 +142,10 @@
                    <source>register</source>
                    <target>Utwórz konto</target>
                           </trans-unit>
+             <trans-unit id="logout">
+                   <source>logout</source>
+                   <target>Wyloguj się</target>
+                           </trans-unit>
         </body>
     </file>
 </xliff>

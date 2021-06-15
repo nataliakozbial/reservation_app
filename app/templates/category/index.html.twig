@@ -9,17 +9,26 @@
         <a href="{{ url('category_create') }}" title="{{ 'action_create'|trans }}">
             {{ 'action_create'|trans }}
         </a>
+
         <a href="{{ url('book_index') }}" title="{{ 'books'|trans }}">
             {{ 'books'|trans }}
         </a>
-        <a href="{{ url('app_login') }}" title="{{ 'login'|trans }}">
-            {{ 'login'|trans }}
-        </a>
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+
+            <div>
+                <a href="{{ url('app_logout') }}">{{ 'logout'|trans }}</a>
+            </div>
+        {% else %}
+            <div>
+                <a href="{{ url('app_login') }}">{{ 'login'|trans }}</a>
+            </div>
+        {% endif %}
         <a href="{{ url('registration') }}" title="{{ 'register'|trans }}">
             {{ 'register'|trans }}
         </a>
+    </div>
 
-    </div>    {% if pagination is defined and pagination.items|length %}
+       {% if pagination is defined and pagination.items|length %}
 
 
         <table class="table table-striped">
@@ -67,5 +76,8 @@
         <p>
             {{ 'message_empty_list'|trans }}
         </p>
+    {% endif %}
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <div>Witaj {{ app.user.email }}</div>
     {% endif %}
 {% endblock %}
