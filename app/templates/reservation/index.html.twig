@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title_reservation_list'|trans }}
+{% endblock %}
+
+{% block body %}
+    <div class="topnav">
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+
+            <div>
+                <a href="{{ url('reservation_create') }}">{{ 'reservation_new'|trans }}</a>
+            </div>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+
+            <div>
+                <a href="{{ url('book_index') }}">{{ 'books'|trans }}</a>
+            </div>
+        {% else %}
+            <div>
+                <a href="{{ url('book_index') }}">{{ 'books'|trans }}</a>
+            </div>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+
+            <div>
+                <a href="{{ url('category_index') }}">{{ 'category_list'|trans }}</a>
+            </div>
+
+        {% endif %}
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+
+            <div>
+                <a href="{{ url('reservation_user') }}">{{ 'myreser'|trans }}</a>
+            </div>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+
+            <div>
+                <a href="{{ url('reservation_index') }}">{{ 'reservation'|trans }}</a>
+            </div>
+        {% endif %}
+        <div>
+            <a href="{{ url('user_show') }}">{{ 'account'|trans }}</a>
+        </div>
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <div>
+                <a href="{{ url('user_index') }}" >{{ 'user'|trans }}</a>
+            </div>
+        {% endif %}
+
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+
+            <div>
+                <a href="{{ url('app_logout') }}">{{ 'logout'|trans }}</a>
+            </div>
+        {% else %}
+            <div>
+                <a href="{{ url('app_login') }}">{{ 'login'|trans }}</a>
+            </div>
+        {% endif %}
+
+    </div>
+
+
+    {% if pagination is defined and pagination.items|length %}
+
+
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{{ 'label_book'|trans }}</th>
+                <th>{{ 'label_user'|trans }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label_startdate'|trans, 'reservation.startdate') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label_enddate'|trans, 'reservation.enddate') }}</th>
+                <th>{{ 'label_actions'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for reservation in pagination.items %}
+                <tr>
+                    <td>{{ reservation.book.title                     }}</td>
+                    <td>{{ reservation.user.email                     }}</td>
+                    <td>{{ reservation.startdate|format_date('short')   }}</td>
+                    <td>{{ reservation.endDate|format_date('short')   }}</td>
+                    <td>
+                        <a href="{{ url('reservation_show', {id: reservation.id}) }}" title="{{ 'action_view'|trans }}">
+                            {{ 'action_view'|trans }}
+                        </a>
+                        <a href="{{ url('reservation_return', {id: reservation.id}) }}" title="{{ 'action_return'|trans }}">
+                            {{ 'action_return'|trans }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+    {% else %}
+        {% include 'default/_single_flash_message.html.twig' with {
+            type: 'warning',
+            message: 'message_empty_list'|trans
+        } %}
+    {% endif %}
+{% endblock %}

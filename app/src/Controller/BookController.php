@@ -9,7 +9,9 @@ use App\Entity\Book;
 use App\Form\BookType;
 use App\Service\BookService;
 use App\Repository\BookRepository;
-use Knp\Component\Pager\PaginatorInterface;
+use DateTime;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,27 +28,26 @@ class BookController extends AbstractController
     /**
      * Book service.
      *
-     * @var \App\Service\BookService
+     * @var BookService
      */
-    private $bookService;
+    private BookService $bookService;
 
     /**
      * BookController constructor.
      *
-     * @param \App\Service\BookService $bookService Book service
+     * @param BookService $bookService Book service
      */
     public function __construct(BookService $bookService)
     {
         $this->bookService = $bookService;
     }
+
     /**
      * Index action.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request        HTTP request
-     * @param \App\Repository\BookRepository            $bookRepository Book repository
-     * @param \Knp\Component\Pager\PaginatorInterface   $paginator      Paginator
+     * @param Request $request HTTP request
      *
-     * @return \Symfony\Component\HttpFoundation\Response HTTP response
+     * @return Response HTTP response
      *
      * @Route(
      *     "/",
@@ -71,9 +72,9 @@ class BookController extends AbstractController
     /**
      * Show action.
      *
-     * @param \App\Entity\Book $book Book entity
+     * @param Book $book Book entity
      *
-     * @return \Symfony\Component\HttpFoundation\Response HTTP response
+     * @return Response HTTP response
      *
      * @Route(
      *     "/{id}",
@@ -92,13 +93,13 @@ class BookController extends AbstractController
     /**
      * Create action.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request        HTTP request
-     * @param \App\Repository\BookRepository            $bookRepository Book repository
+     * @param Request        $request        HTTP request
+     * @param BookRepository $bookRepository Book repository
      *
-     * @return \Symfony\Component\HttpFoundation\Response HTTP response
+     * @return Response HTTP response
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      *
      * @Route(
      *     "/create",
@@ -113,8 +114,8 @@ class BookController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $book->setCreatedAt(new \DateTime());
-            $book->setUpdatedAt(new \DateTime());
+            $book->setCreatedAt(new DateTime());
+            $book->setUpdatedAt(new DateTime());
             $bookRepository->save($book);
             $this->addFlash('success', 'message_created_successfully');
 
@@ -130,14 +131,14 @@ class BookController extends AbstractController
     /**
      * Edit action.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request        HTTP request
-     * @param \App\Entity\Book                          $book           Book entity
-     * @param \App\Repository\BookRepository            $bookRepository Book repository
+     * @param Request        $request        HTTP request
+     * @param Book           $book           Book entity
+     * @param BookRepository $bookRepository Book repository
      *
-     * @return \Symfony\Component\HttpFoundation\Response HTTP response
+     * @return Response HTTP response
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      *
      * @Route(
      *     "/{id}/edit",
@@ -152,7 +153,7 @@ class BookController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $book->setUpdatedAt(new \DateTime());
+            $book->setUpdatedAt(new DateTime());
             $bookRepository->save($book);
             $this->addFlash('success', 'message_updated_successfully');
 
@@ -171,14 +172,14 @@ class BookController extends AbstractController
     /**
      * Delete action.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request        HTTP request
-     * @param \App\Entity\Book                          $book           Book entity
-     * @param \App\Repository\BookRepository           $bookRepository Book repository
+     * @param Request        $request        HTTP request
+     * @param Book           $book           Book entity
+     * @param BookRepository $bookRepository Book repository
      *
-     * @return \Symfony\Component\HttpFoundation\Response HTTP response
+     * @return Response HTTP response
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      *
      * @Route(
      *     "/{id}/delete",
@@ -211,5 +212,4 @@ class BookController extends AbstractController
             ]
         );
     }
-
 }

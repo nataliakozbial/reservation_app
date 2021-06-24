@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Book;
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 
@@ -27,11 +29,11 @@ class BookRepository extends ServiceEntityRepository
      */
     const PAGINATOR_ITEMS_PER_PAGE = 10;
 
-/**
- * BookRepository constructor.
- *
- * @param \Doctrine\Common\Persistence\ManagerRegistry $registry Manager registry
- */
+    /**
+     * BookRepository constructor.
+     *
+     * @param ManagerRegistry $registry Manager registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Book::class);
@@ -39,10 +41,10 @@ class BookRepository extends ServiceEntityRepository
     /**
      * Save record.
      *
-     * @param \App\Entity\Book $book Book entity
+     * @param Book $book Book entity
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function save(Book $book): void
     {
@@ -53,10 +55,10 @@ class BookRepository extends ServiceEntityRepository
     /**
      * Delete record.
      *
-     * @param \App\Entity\Book $book Book entity
+     * @param Book $book Book entity
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function delete(Book $book): void
     {
@@ -69,28 +71,28 @@ class BookRepository extends ServiceEntityRepository
      *
      * @param array $filters Filters array
      *
-     * @return \Doctrine\ORM\QueryBuilder Query builder
+     * @return QueryBuilder Query builder
      */
     public function queryAll(array $filters = []): QueryBuilder
     {
         $queryBuilder = $this->getOrCreateQueryBuilder()
             ->select(
-                'partial book.{id, createdAt, updatedAt, title}',
+                'partial book.{id, createdAt, updatedAt, title, availability}',
                 'partial category.{id, title}'
             )
             ->join('book.category', 'category')
             ->orderBy('book.updatedAt', 'DESC');
-        $queryBuilder = $this->applyFiltersToList($queryBuilder, $filters);
-        return $queryBuilder;
+
+        return $this->applyFiltersToList($queryBuilder, $filters);
     }
 
     /**
      * Apply filters to paginated list.
      *
-     * @param \Doctrine\ORM\QueryBuilder $queryBuilder Query builder
-     * @param array                      $filters      Filters array
+     * @param QueryBuilder $queryBuilder Query builder
+     * @param array        $filters      Filters array
      *
-     * @return \Doctrine\ORM\QueryBuilder Query builder
+     * @return QueryBuilder Query builder
      */
     private function applyFiltersToList(QueryBuilder $queryBuilder, array $filters = []): QueryBuilder
     {
@@ -109,13 +111,12 @@ class BookRepository extends ServiceEntityRepository
     /**
      * Get or create new query builder.
      *
-     * @param \Doctrine\ORM\QueryBuilder|null $queryBuilder Query builder
      *
-     * @return \Doctrine\ORM\QueryBuilder Query builder
+     * @return QueryBuilder Query builder
      */
-    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
+    private function getOrCreateQueryBuilder(): QueryBuilder
     {
-        return $queryBuilder ?? $this->createQueryBuilder('book');
+        return null ?? $this->createQueryBuilder('book');
     }
 
 

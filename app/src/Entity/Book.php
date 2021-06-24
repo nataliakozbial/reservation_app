@@ -8,6 +8,8 @@ use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookRepository")
@@ -17,12 +19,16 @@ class Book
 {
     /**
      * Primary key.
+     *
      * @var int
+     *
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(
+     *     type="integer"
+     * )
      */
-    private $id;
+    private int $id;
 
     /**
      * Created at.
@@ -53,12 +59,33 @@ class Book
      * )
      */
     private $title;
-
+    /**
+     * Availability.
+     *
+     * @ORM\Column(
+     *     type="smallint"
+     * )
+     *
+     * @Assert\Type(type="integer")
+     * @Assert\Positive
+     * @Assert\NotBlank
+     */
+    private int $availability;
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="books")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="book")
+     */
+    private $reservations;
+
+    public function __construct()
+    {
+        $this->reservations = new ArrayCollection();
+    }
 
 
 
@@ -134,7 +161,25 @@ class Book
 
         return $this;
     }
+    /**
+     * Getter for Availability.
+     *
+     * @return int|null Availability
+     */
+    public function getAvailability(): ?int
+    {
+        return $this->availability;
+    }
 
+    /**
+     * Setter for Availability.
+     *
+     * @param int $availability Availability
+     */
+    public function setAvailability(int $availability): void
+    {
+        $this->availability = $availability;
+    }
     public function getCategory(): ?Category
     {
         return $this->category;
@@ -147,9 +192,33 @@ class Book
         return $this;
     }
 
+    /**
+     * @return Collection|Reservation[]
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
 
+    public function addReservation(Reservation $reservation): self
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations[] = $reservation;
+            $reservation->setBook($this);
+        }
 
+        return $this;
+    }
 
+    public function removeReservation(Reservation $reservation): self
+    {
+        if ($this->reservations->removeElement($reservation)) {
+            // set the owning side to null (unless already changed)
+            if ($reservation->getBook() === $this) {
+                $reservation->setBook(null);
+            }
+        }
 
-
+        return $this;
+    }
 }

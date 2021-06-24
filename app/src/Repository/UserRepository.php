@@ -17,6 +17,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
@@ -32,6 +33,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
 
         $user->setPassword($newEncodedPassword);
+        $this->_em->persist($user);
+        $this->_em->flush();
+    }
+    /**
+     * Save record.
+     *
+     * @param \App\Entity\User $user User entity
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function save(User $user): void
+    {
         $this->_em->persist($user);
         $this->_em->flush();
     }

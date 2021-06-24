@@ -17,16 +17,18 @@ class BookFixtures extends AbstractBaseFixtures implements DependentFixtureInter
     /**
      * Load data.
      *
-     * @param \Doctrine\Persistence\ObjectManager $manager Persistence object manager
+     * @param ObjectManager $manager Persistence object manager
      */
     public function loadData(ObjectManager $manager): void
     {
-        $this->createMany(50, 'books', function ($i) {
+        $this->createMany(50, 'books', function () {
             $book = new Book();
             $book->setTitle($this->faker->sentence);
             $book->setCreatedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));
             $book->setUpdatedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));
             $book->setCategory($this->getRandomReference('categories'));
+            $book->setAvailability($this->faker->randomDigit);
+
 
 
             return $book;

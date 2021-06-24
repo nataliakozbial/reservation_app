@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="topnav">
+      <div class="topnav">
         <a href="{{ url('category_create') }}" title="{{ 'action_create'|trans }}">
             {{ 'action_create'|trans }}
         </a>
@@ -13,6 +13,24 @@
         <a href="{{ url('book_index') }}" title="{{ 'books'|trans }}">
             {{ 'books'|trans }}
         </a>
+              <div>
+                  <a href="{{ url('reservation_user') }}" >{{ 'myreser'|trans }}</a>
+              </div>
+          {% if is_granted('ROLE_ADMIN') %}
+
+              <div>
+                  <a href="{{ url('reservation_index') }}">{{ 'reservations'|trans }}</a>
+              </div>
+          {% endif %}
+          <div>
+              <a href="{{ url('user_show') }}" >{{ 'account'|trans }}</a>
+          </div>
+        {% if is_granted('ROLE_ADMIN') %}
+            <div>
+                <a href="{{ url('user_index') }}" >{{ 'user'|trans }}</a>
+            </div>
+        {% endif %}
+
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 
             <div>
@@ -23,9 +41,7 @@
                 <a href="{{ url('app_login') }}">{{ 'login'|trans }}</a>
             </div>
         {% endif %}
-        <a href="{{ url('registration') }}" title="{{ 'register'|trans }}">
-            {{ 'register'|trans }}
-        </a>
+
     </div>
 
        {% if pagination is defined and pagination.items|length %}
@@ -51,9 +67,11 @@
                     <td>{{ category.title }}</td>
 
                     <td>
+
                         <a href="{{ url('category_show', {id: category.id}) }}" title="{{ 'action_view'|trans }}">
                             {{ 'action_view'|trans }}
                         </a>
+
                         <a href="{{ url('category_edit', {id: category.id}) }}" title="{{ 'action_edit'|trans }}">
                             {{ 'action_edit'|trans }}
                         </a>
@@ -62,6 +80,7 @@
                                 {{ 'action_delete'|trans }}
                             </a>
                         {% endif %}
+
                     </td>
                 </tr>
             {% endfor %}

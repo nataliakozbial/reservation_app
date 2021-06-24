@@ -55,8 +55,15 @@ class BookType extends AbstractType
                 'required' => true,
             ]
         );
-
-
+        $builder->add(
+            'availability',
+            TextType::class,
+            [
+                'label' => 'label_ava',
+                'required' => true,
+                'attr' => ['max_length' => 64],
+            ]
+        );
     }
 
     /**

@@ -18,14 +18,35 @@
                 <a href="{{ url('book_index') }}">{{ 'books'|trans }}</a>
             </div>
         {% endif %}
-        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        {% if is_granted('ROLE_ADMIN') %}
 
             <div>
                 <a href="{{ url('category_index') }}">{{ 'category_list'|trans }}</a>
             </div>
-        {% else %}
+        {% endif %}
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+
             <div>
-                <a href="{{ url('app_login') }}">{{ 'category_list'|trans }}</a>
+                <a href="{{ url('reservation_user') }}">{{ 'myreser'|trans }}</a>
+            </div>
+
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+
+        <div>
+            <a href="{{ url('reservation_index') }}">{{ 'reservations'|trans }}</a>
+        </div>
+        {% endif %}
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+
+            <div>
+                <a href="{{ url('user_show') }}">{{ 'account'|trans }}</a>
+            </div>
+        {% endif %}
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <div>
+                <a href="{{ url('user_index') }}" >{{ 'user'|trans }}</a>
             </div>
         {% endif %}
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
@@ -38,9 +59,7 @@
                 <a href="{{ url('app_login') }}">{{ 'login'|trans }}</a>
             </div>
         {% endif %}
-        <a href="{{ url('registration') }}" title="{{ 'register'|trans }}">
-            {{ 'register'|trans }}
-        </a>
+
     </div>
 
     {% if pagination is defined and pagination.items|length %}
@@ -69,20 +88,17 @@
                         </a> </td>
                     <td>
                         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                                <a href="{{ url('book_show', {id: book.id }) }}">{{ 'action_view'|trans }}</a>
+                            <a href="{{ url('book_show', {id: book.id }) }}">{{ 'action_view'|trans }}</a>
 
                         {% else %}
-                                <a href="{{ url('app_login') }}">{{ 'action_view'|trans }}</a>
+                            <a href="{{ url('app_login') }}">{{ 'action_view'|trans }}</a>
                         {% endif %}
+
                         {% if is_granted('ROLE_ADMIN') %}
                             <a href="{{ url('book_edit', {id: book.id}) }}">{{ 'action_edit'|trans }}</a>
-                        {% else %}
-                            <a href="{{ url('book_index') }}">{{ 'action_edit'|trans }}</a>
                         {% endif %}
                         {% if is_granted('ROLE_ADMIN') %}
                             <a href="{{ url('book_delete', {id: book.id}) }}">{{ 'action_delete'|trans }}</a>
-                        {% else %}
-                            <a href="{{ url('book_index') }}">{{ 'action_delete'|trans }}</a>
                         {% endif %}
                     </td>
                 </tr>
@@ -100,6 +116,6 @@
         </p>
     {% endif %}
     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-    <div>Witaj {{ app.user.email }}</div>
+        <div>Witaj {{ app.user.email }}</div>
     {% endif %}
 {% endblock %}

@@ -146,6 +146,86 @@
                    <source>logout</source>
                    <target>Wyloguj się</target>
                            </trans-unit>
+              <trans-unit id="user">
+                    <source>user</source>
+                    <target>Użytkownicy</target>
+                            </trans-unit>
+               <trans-unit id="reservations">
+                     <source>reservations</source>
+                     <target>Rezerwacje</target>
+                             </trans-unit>
+               <trans-unit id="reservation_new">
+                     <source>reservation_new</source>
+                      <target>Dodaj Rezerwację</target>
+                              </trans-unit>
+               <trans-unit id="myreser">
+                      <source>myreser</source>
+                      <target>Moje rezerwacje</target>
+                              </trans-unit>
+              <trans-unit id="account">
+                      <source>account</source>
+                      <target>Moje konto</target>
+                              </trans-unit>
+              <trans-unit id="reservation">
+                       <source>reservation</source>
+                       <target>Rezerwacje</target>
+                               </trans-unit>
+              <trans-unit id="label_element">
+                       <source>label_element</source>
+                       <target>Wybierz książkę</target>
+                               </trans-unit>
+              <trans-unit id="label_comment">
+                       <source>label_comment</source>
+                       <target>Dodaj komentarz</target>
+                               </trans-unit>
+              <trans-unit id="label_book">
+                       <source>label_book</source>
+                       <target>Książka</target>
+                               </trans-unit>
+              <trans-unit id="label_user">
+                       <source>label_user</source>
+                       <target>Użytkownik</target>
+                               </trans-unit>
+              <trans-unit id="label_startdate">
+                        <source>label_startdate</source>
+                        <target>Rozpoczęcie</target>
+                                </trans-unit>
+              <trans-unit id="label_enddate">
+                        <source>label_enddate</source>
+                        <target>Zakończenie</target>
+                                </trans-unit>
+              <trans-unit id="action_return">
+                         <source>action_return</source>
+                         <target>Zwróć</target>
+                                 </trans-unit>
+              <trans-unit id="title_reservation_create">
+                          <source>title_reservation_create</source>
+                          <target>Rezerwuj</target>
+                                  </trans-unit>
+             <trans-unit id="label_roles">
+                           <source>label_roles</source>
+                           <target>Rola</target>
+                                   </trans-unit>
+             <trans-unit id="label_email">
+                            <source>label_email</source>
+                            <target>Email</target>
+                                   </trans-unit>
+             <trans-unit id="title_reservation_list">
+                             <source>title_reservation_list</source>
+                             <target>Rezerwacje</target>
+                                     </trans-unit>
+             <trans-unit id="title_reservation_delete">
+                             <source>title_reservation_delete</source>
+                             <target>Zwróć</target>
+                                      </trans-unit>
+             <trans-unit id="label_ava">
+                              <source>label_ava</source>
+                              <target>Dostępność</target>
+                                       </trans-unit>
+             <trans-unit id="label_availability">
+                              <source>label_availability</source>
+                              <target>Dostępność</target>
+                                       </trans-unit>
         </body>
     </file>
 </xliff>

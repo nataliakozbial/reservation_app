@@ -7,10 +7,10 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
-
-
 
 /**
  * Class CategoryRepository.
@@ -38,6 +38,10 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
     public function save(Category $category): void
     {
         $this->_em->persist($category);
@@ -46,7 +50,7 @@ class CategoryRepository extends ServiceEntityRepository
     /**
      * Query all records.
      *
-     * @return \Doctrine\ORM\QueryBuilder Query builder
+     * @return QueryBuilder Query builder
      */
     public function queryAll(): QueryBuilder
     {
@@ -57,21 +61,20 @@ class CategoryRepository extends ServiceEntityRepository
     /**
      * Get or create new query builder.
      *
-     * @param \Doctrine\ORM\QueryBuilder|null $queryBuilder Query builder
      *
-     * @return \Doctrine\ORM\QueryBuilder Query builder
+     * @return QueryBuilder Query builder
      */
-    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
+    private function getOrCreateQueryBuilder(): QueryBuilder
     {
-        return $queryBuilder ?? $this->createQueryBuilder('category');
+        return null ?? $this->createQueryBuilder('category');
     }
     /**
      * Delete record.
      *
-     * @param \App\Entity\Category $category Category entity
+     * @param Category $category Category entity
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function delete(Category $category): void
     {

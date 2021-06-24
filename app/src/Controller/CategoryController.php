@@ -113,6 +113,7 @@ class CategoryController extends AbstractController
             $category->setUpdatedAt(new \DateTime());
             $categoryRepository->save($category);
             $this->addFlash('success', 'message_created_successfully');
+
             return $this->redirectToRoute('category_index');
         }
 
