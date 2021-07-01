@@ -9,6 +9,7 @@
  use App\Repository\BookRepository;
  use Knp\Component\Pager\Pagination\PaginationInterface;
  use Knp\Component\Pager\PaginatorInterface;
+ use Symfony\Component\Security\Core\User\UserInterface;
 
  /**
   *  Class Bookservice
@@ -48,11 +49,10 @@ class BookService
     /**
      * Create paginated list.
      *
-     * @param int                                                 $page    Page number
-     * @param \Symfony\Component\Security\Core\User\UserInterface $user    User entity
-     * @param array                                               $filters Filters array
+     * @param int   $page
+     * @param array $filters
      *
-     * @return \Knp\Component\Pager\Pagination\PaginationInterface Paginated list
+     * @return \Knp\Component\Pager\Pagination\PaginationInterface
      */
     public function createPaginatedList(int $page, array $filters = []): PaginationInterface
     {

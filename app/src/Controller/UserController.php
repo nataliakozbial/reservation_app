@@ -30,16 +30,15 @@ class UserController extends AbstractController
      * @var Security
      */
     private Security $security;
+    /**
+     * UserController constructor.
+     *
+     * @param Security $security
+     */
     public function __construct(Security $security)
     {
         $this->security = $security;
     }
-    /**
-     * User service.
-     *
-     * @var \App\Service\UserService
-     */
-    private $userService;
 
     /**
      * Index action.

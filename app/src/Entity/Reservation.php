@@ -141,7 +141,7 @@ class Reservation
     /**
      * Setter for start date.
      *
-     * @param DateTimeInterface $startlDate
+     * @param DateTimeInterface $startDate
      */
     public function setStartDate(DateTimeInterface $startDate): void
     {

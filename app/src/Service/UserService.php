@@ -24,12 +24,6 @@ class UserService
      */
     private $userRepository;
 
-    /**
-     * Paginator.
-     *
-     * @var PaginatorInterface
-     */
-    private $paginator;
 
     /**
      * UseryService constructor.

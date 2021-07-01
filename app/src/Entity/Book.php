@@ -36,6 +36,10 @@ class Book
      * @var DateTimeInterface
      *
      * @ORM\Column(type="datetime")
+     *
+     * @Assert\Type(type="\DateTimeInterface")
+     *
+     * @Gedmo\Timestampable(on="create")
      */
     private $createdAt;
 
@@ -45,6 +49,10 @@ class Book
      * @var DateTimeInterface
      *
      * @ORM\Column(type="datetime")
+     *
+     * @Assert\Type(type="\DateTimeInterface")
+     *
+     * @Gedmo\Timestampable(on="update")
      */
     private $updatedAt;
 
@@ -55,7 +63,14 @@ class Book
      *
      * @ORM\Column(
      *     type="string",
-     *     length=255,
+     *     length=64,
+     * )
+     *
+     * @Assert\Type(type="string")
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *     min="3",
+     *     max="64",
      * )
      */
     private $title;
@@ -81,16 +96,17 @@ class Book
      * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="book")
      */
     private $reservations;
-
+    /**
+     * Book constructor.
+     */
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
     }
-
-
-
-
-
+    /**
+     * Getter for Id.
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
@@ -100,7 +116,6 @@ class Book
      *
      * @return \DateTimeInterface|null Created at
      */
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -109,8 +124,9 @@ class Book
      * Setter for Created at.
      *
      * @param \DateTimeInterface $createdAt Created at
+     *
+     * @return void
      */
-
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
@@ -122,7 +138,6 @@ class Book
      *
      * @return \DateTimeInterface|null Updated at
      */
-
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
@@ -131,8 +146,9 @@ class Book
      * Setter for Updated at.
      *
      * @param \DateTimeInterface $updatedAt Updated at
+     *
+     * @return void
      */
-
     public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
@@ -144,7 +160,6 @@ class Book
      *
      * @return string|null Title
      */
-
     public function getTitle(): ?string
     {
         return $this->title;
@@ -153,8 +168,9 @@ class Book
      * Setter for Title.
      *
      * @param string $title Title
+     *
+     * @return void
      */
-
     public function setTitle(string $title): self
     {
         $this->title = $title;
@@ -180,11 +196,21 @@ class Book
     {
         $this->availability = $availability;
     }
+    /**
+     * Getter for Category.
+     * @return Category|null
+     */
     public function getCategory(): ?Category
     {
         return $this->category;
     }
-
+    /**
+     * Setter for Category.
+     *
+     * @param Category|null $category
+     *
+     * @return void
+     */
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
@@ -199,7 +225,13 @@ class Book
     {
         return $this->reservations;
     }
-
+    /**
+     * Add Reservation.
+     *
+     * @param Reservation $reservation
+     *
+     * @return void
+     */
     public function addReservation(Reservation $reservation): self
     {
         if (!$this->reservations->contains($reservation)) {
@@ -209,7 +241,13 @@ class Book
 
         return $this;
     }
-
+    /**
+     * Remove Reservation.
+     *
+     * @param Reservation $reservation
+     *
+     * @return $this
+     */
     public function removeReservation(Reservation $reservation): self
     {
         if ($this->reservations->removeElement($reservation)) {

@@ -101,11 +101,6 @@ class User implements UserInterface
      */
     private $reservations;
 
-    public function __construct()
-    {
-        $this->reservations = new ArrayCollection();
-    }
-
     /**
      * Getter for the Id.
      *
@@ -220,7 +215,12 @@ class User implements UserInterface
     {
         return $this->reservations;
     }
-
+    /**
+     * Add Reservation.
+     * @param Reservation $reservation
+     *
+     * @return void
+     */
     public function addReservation(Reservation $reservation): self
     {
         if (!$this->reservations->contains($reservation)) {
@@ -230,7 +230,13 @@ class User implements UserInterface
 
         return $this;
     }
-
+    /**
+     * Remove reservation.
+     *
+     * @param Reservation $reservation
+     *
+     * @return void
+     */
     public function removeReservation(Reservation $reservation): self
     {
         if ($this->reservations->removeElement($reservation)) {

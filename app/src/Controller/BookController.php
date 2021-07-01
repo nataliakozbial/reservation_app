@@ -8,7 +8,6 @@ namespace App\Controller;
 use App\Entity\Book;
 use App\Form\BookType;
 use App\Service\BookService;
-use App\Repository\BookRepository;
 use DateTime;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -51,6 +50,7 @@ class BookController extends AbstractController
      *
      * @Route(
      *     "/",
+     *     methods={"GET"},
      *     name="book_index",
      * )
      */
@@ -93,8 +93,8 @@ class BookController extends AbstractController
     /**
      * Create action.
      *
-     * @param Request        $request        HTTP request
-     * @param BookRepository $bookRepository Book repository
+     * @param Request     $request     HTTP request
+     * @param BookService $bookService Book service
      *
      * @return Response HTTP response
      *
@@ -107,7 +107,7 @@ class BookController extends AbstractController
      *     name="book_create",
      * )
      */
-    public function create(Request $request, BookRepository $bookRepository): Response
+    public function create(Request $request, BookService $bookService): Response
     {
         $book = new Book();
         $form = $this->createForm(BookType::class, $book);
@@ -116,7 +116,7 @@ class BookController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $book->setCreatedAt(new DateTime());
             $book->setUpdatedAt(new DateTime());
-            $bookRepository->save($book);
+            $bookService->save($book);
             $this->addFlash('success', 'message_created_successfully');
 
             return $this->redirectToRoute('book_index');
@@ -131,9 +131,9 @@ class BookController extends AbstractController
     /**
      * Edit action.
      *
-     * @param Request        $request        HTTP request
-     * @param Book           $book           Book entity
-     * @param BookRepository $bookRepository Book repository
+     * @param Request     $request     HTTP request
+     * @param Book        $book        Book entity
+     * @param BookService $bookService Book service
      *
      * @return Response HTTP response
      *
@@ -147,14 +147,14 @@ class BookController extends AbstractController
      *     name="book_edit",
      * )
      */
-    public function edit(Request $request, Book $book, BookRepository $bookRepository): Response
+    public function edit(Request $request, Book $book, BookService $bookService): Response
     {
         $form = $this->createForm(BookType::class, $book, ['method' => 'PUT']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $book->setUpdatedAt(new DateTime());
-            $bookRepository->save($book);
+            $bookService->save($book);
             $this->addFlash('success', 'message_updated_successfully');
 
             return $this->redirectToRoute('book_index');
@@ -172,9 +172,9 @@ class BookController extends AbstractController
     /**
      * Delete action.
      *
-     * @param Request        $request        HTTP request
-     * @param Book           $book           Book entity
-     * @param BookRepository $bookRepository Book repository
+     * @param Request     $request     HTTP request
+     * @param Book        $book        Book entity
+     * @param BookService $bookService Book service
      *
      * @return Response HTTP response
      *
@@ -188,7 +188,7 @@ class BookController extends AbstractController
      *     name="book_delete",
      * )
      */
-    public function delete(Request $request, Book $book, BookRepository $bookRepository): Response
+    public function delete(Request $request, Book $book, BookService $bookService): Response
     {
         $form = $this->createForm(FormType::class, $book, ['method' => 'DELETE']);
         $form->handleRequest($request);
@@ -198,7 +198,7 @@ class BookController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $bookRepository->delete($book);
+            $bookService->delete($book);
             $this->addFlash('success', 'message_deleted_successfully');
 
             return $this->redirectToRoute('book_index');

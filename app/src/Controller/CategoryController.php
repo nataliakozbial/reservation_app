@@ -8,7 +8,6 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Service\CategoryService;
-use App\Repository\CategoryRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -88,8 +87,8 @@ class CategoryController extends AbstractController
     /**
      * Create action.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request            HTTP request
-     * @param \App\Repository\CategoryRepository        $categoryRepository Category repository
+     * @param \Symfony\Component\HttpFoundation\Request $request         HTTP request
+     * @param \App\ServiceCategoryService               $categoryService Category service
      *
      * @return \Symfony\Component\HttpFoundation\Response HTTP response
      *
@@ -102,7 +101,7 @@ class CategoryController extends AbstractController
      *     name="category_create",
      * )
      */
-    public function create(Request $request, CategoryRepository $categoryRepository): Response
+    public function create(Request $request, CategoryService $categoryService): Response
     {
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
@@ -111,7 +110,7 @@ class CategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $category->setCreatedAt(new \DateTime());
             $category->setUpdatedAt(new \DateTime());
-            $categoryRepository->save($category);
+            $categoryService->save($category);
             $this->addFlash('success', 'message_created_successfully');
 
             return $this->redirectToRoute('category_index');
@@ -125,9 +124,9 @@ class CategoryController extends AbstractController
     /**
      * Edit action.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request            HTTP request
-     * @param \App\Entity\Category                      $category           Category entity
-     * @param \App\Repository\CategoryRepository        $categoryRepository Category repository
+     * @param \Symfony\Component\HttpFoundation\Request $request         HTTP request
+     * @param \App\Entity\Category                      $category        Category entity
+     * @param \App\Service\CategoryService              $categoryService Category service
      *
      * @return \Symfony\Component\HttpFoundation\Response HTTP response
      *
@@ -141,14 +140,14 @@ class CategoryController extends AbstractController
      *     name="category_edit",
      * )
      */
-    public function edit(Request $request, Category $category, CategoryRepository $categoryRepository): Response
+    public function edit(Request $request, Category $category, CategoryService $categoryService): Response
     {
         $form = $this->createForm(CategoryType::class, $category, ['method' => 'PUT']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $category->setUpdatedAt(new \DateTime());
-            $categoryRepository->save($category);
+            $categoryService->save($category);
 
             $this->addFlash('success', 'message_updated_successfully');
 
@@ -166,9 +165,9 @@ class CategoryController extends AbstractController
     /**
      * Delete action.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request    HTTP request
-     * @param \App\Entity\Category                      $category   Category entity
-     * @param \App\Repository\CategoryRepository        $repository Category repository
+     * @param \Symfony\Component\HttpFoundation\Request $request  HTTP request
+     * @param \App\Entity\Category                      $category Category entity
+     * @param \App\Service\CategoryService              $service  Category service
      *
      * @return \Symfony\Component\HttpFoundation\Response HTTP response
      *
@@ -182,7 +181,7 @@ class CategoryController extends AbstractController
      *     name="category_delete",
      * )
      */
-    public function delete(Request $request, Category $category, CategoryRepository $repository): Response
+    public function delete(Request $request, Category $category, CategoryService $service): Response
     {
         if ($category->getBooks()->count()) {
             $this->addFlash('warning', 'message_category_contains_books');
@@ -198,7 +197,7 @@ class CategoryController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $repository->delete($category);
+            $service->delete($category);
             $this->addFlash('success', 'message_deleted_successfully');
 
             return $this->redirectToRoute('category_index');

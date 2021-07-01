@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Book Repository.
+ */
 namespace App\Repository;
 
 use App\Entity\Book;

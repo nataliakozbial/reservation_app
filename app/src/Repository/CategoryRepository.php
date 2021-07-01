@@ -32,14 +32,20 @@ class CategoryRepository extends ServiceEntityRepository
      * @constant int
      */
     const PAGINATOR_ITEMS_PER_PAGE = 10;
-
+    /**
+     * CategoryRepository constructor.
+     * @param \Doctrine\Persistence\ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Category::class);
     }
 
     /**
-     * @throws OptimisticLockException
+     * Save record in a database.
+     *
+     * @param Category $category Category entity
+     *
      * @throws ORMException
      */
     public function save(Category $category): void
@@ -57,7 +63,19 @@ class CategoryRepository extends ServiceEntityRepository
         return $this->getOrCreateQueryBuilder()
             ->orderBy('category.updatedAt', 'DESC');
     }
-
+    /**
+     * Delete category.
+     *
+     * @param Category $category
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function delete(Category $category): void
+    {
+        $this->_em->remove($category);
+        $this->_em->flush();
+    }
     /**
      * Get or create new query builder.
      *
@@ -67,18 +85,5 @@ class CategoryRepository extends ServiceEntityRepository
     private function getOrCreateQueryBuilder(): QueryBuilder
     {
         return null ?? $this->createQueryBuilder('category');
-    }
-    /**
-     * Delete record.
-     *
-     * @param Category $category Category entity
-     *
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function delete(Category $category): void
-    {
-        $this->_em->remove($category);
-        $this->_em->flush();
     }
 }

@@ -9,12 +9,17 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Category.
  *
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
  * @ORM\Table(name="categories")
+ *
+ * @UniqueEntity(fields={"title"})
  */
 class Category
 {
@@ -35,6 +40,10 @@ class Category
      * @var DateTimeInterface
      *
      * @ORM\Column(type="datetime")
+     *
+     * @Assert\Type(type="\DateTimeInterface")
+     *
+     * @Gedmo\Timestampable(on="create")
      */
     private $createdAt;
 
@@ -44,6 +53,10 @@ class Category
      * @var DateTimeInterface
      *
      * @ORM\Column(type="datetime")
+     *
+     * @Assert\Type(type="\DateTimeInterface")
+     *
+     * @Gedmo\Timestampable(on="update")
      */
     private $updatedAt;
 
@@ -56,18 +69,30 @@ class Category
      *     type="string",
      *     length=64,
      * )
+     *
+     * @Assert\Type(type="string")
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *     min="3",
+     *     max="64",
+     * )
      */
     private $title;
 
     /**
-     * @ORM\OneToMany(targetEntity=Book::class,
-     *     mappedBy="category",
-     *     fetch="EXTRA_LAZY",
-     *      )
+     * Books.
      *
+     * @var \Doctrine\Common\Collections\ArrayCollection|\App\Entity\Book[] $books Books
+     *
+     * @ORM\OneToMany(
+     *     targetEntity="App\Entity\Book",
+     *     mappedBy="category",
+     * )
      */
     private $books;
-
+    /**
+     * Category constructor.
+     */
     public function __construct()
     {
         $this->books = new ArrayCollection();
@@ -151,6 +176,12 @@ class Category
         return $this->books;
     }
 
+    /**
+     * Add Book.
+     * @param Book $book
+     *
+     * @return void
+     */
     public function addBook(Book $book): self
     {
         if (!$this->books->contains($book)) {
@@ -160,7 +191,13 @@ class Category
 
         return $this;
     }
-
+    /**
+     * Remove book.
+     *
+     * @param Book $book
+     *
+     * @return void
+     */
     public function removeBook(Book $book): self
     {
         if ($this->books->removeElement($book)) {

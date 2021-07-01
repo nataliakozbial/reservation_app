@@ -7,7 +7,6 @@ namespace App\Controller;
 
 use App\Entity\Reservation;
 use App\Form\ReservationType;
-use App\Repository\ReservationRepository;
 use App\Service\ReservationService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,14 +36,16 @@ class ReservationController extends AbstractController
     /**
      * Reservation service.
      *
-     * @var \App\Service\ReservationService
+     * @var ReservationService
      */
     private ReservationService $reservationService;
 
     /**
-     * ReservationController constructor.
+     * @param ReservationService                        $reservationService Reservation service
+     * @param \Symfony\Component\Security\Core\Security $security           Security
+     *                                                                      ReservationController
+     *                                                                      constructor.
      *
-     * @param \App\Service\ReservationService $reservationService Reservation service
      */
     public function __construct(ReservationService $reservationService, Security $security)
     {
@@ -61,6 +62,7 @@ class ReservationController extends AbstractController
      *
      * @Route(
      *     "/index",
+     *     methods={"GET"},
      *     name="reservation_index",
      * )
      *
@@ -86,6 +88,7 @@ class ReservationController extends AbstractController
      * @Route(
      *     "/reservation_user",
      *     name="reservation_user",
+     *     methods={"GET"}
      * )
      */
     public function userReservations(Request $request): Response
@@ -103,8 +106,8 @@ class ReservationController extends AbstractController
     /**
      * Create action.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request               HTTP request
-     * @param \App\Repository\ReservationRepository     $reservationRepository Reservation repository
+     * @param \Symfony\Component\HttpFoundation\Request $request            HTTP request
+     * @param \App\Service\ReservationService           $reservationService Reservation service
      *
      * @return \Symfony\Component\HttpFoundation\Response HTTP response
      *
@@ -117,7 +120,7 @@ class ReservationController extends AbstractController
      *     name="reservation_create",
      * )
      */
-    public function create(Request $request, ReservationRepository $reservationRepository): Response
+    public function create(Request $request, ReservationService $reservationService): Response
     {
         $reservation = new Reservation();
         $form = $this->createForm(ReservationType::class, $reservation);
@@ -128,7 +131,7 @@ class ReservationController extends AbstractController
             $reservation->setStartDate(new \DateTime());
             $reservation->setEndnDate(new \DateTime('+2 month'));
             $reservation->setUser($this->getUser());
-            $reservationRepository->save($reservation);
+            $reservationService->save($reservation);
             $this->reservationService->createReservation($reservation);
             $this->addFlash('success', 'message_created_successfully');
 

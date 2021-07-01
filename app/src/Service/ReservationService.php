@@ -51,23 +51,22 @@ class ReservationService
     /**
      * Paginator.
      *
-     * @var \Knp\Component\Pager\PaginatorInterface
+     * @var PaginatorInterface
      */
     private PaginatorInterface $paginator;
 
     /**
+     *
      * ReservationService constructor.
      *
-     * @param \App\Repository\ReservationRepository   $reservationRepository Reservation repository
-     * @param \Knp\Component\Pager\PaginatorInterface $paginator             Paginator
+     * @param \App\Repository\ReservationRepository               $reservationRepository Reservation repository
+     * @param \App\Repository\BookRepository                      $bookRepository        Book repository
+     * @param \App\Repository\UserRepository                      $userRepository        User repository
+     * @param \Symfony\Component\Security\Core\User\UserInterface $paginator             Paginator
+     * @param PaginatorInterface                                  $security              Security
      */
-    public function __construct(
-        ReservationRepository $reservationRepository,
-        BookRepository $bookRepository,
-        UserRepository $userRepository,
-        PaginatorInterface $paginator,
-        Security $security
-    ) {
+    public function __construct(ReservationRepository $reservationRepository, BookRepository $bookRepository, UserRepository $userRepository, PaginatorInterface $paginator, Security $security)
+    {
         $this->reservationRepository = $reservationRepository;
         $this->userRepository = $userRepository;
         $this->bookRepository = $bookRepository;
@@ -104,11 +103,10 @@ class ReservationService
     {
         $this->reservationRepository->delete($reservation);
     }
+
     /**
-     * @param User $user User Entity
-     *                   Create paginated list by User.
-     *
-     * @param int  $page Page number
+     * @param int $page
+     * @param $user
      *
      * @return \Knp\Component\Pager\Pagination\PaginationInterface Paginated list
      */
